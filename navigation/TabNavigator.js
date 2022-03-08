@@ -1,11 +1,11 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Feed from "../screens/Feed";
 import CreatePost from "../screens/CreatePost";
 import { Ionicons } from "@expo/vector-icons";
 import "react-native-gesture-handler";
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 const TabNavigator = () => (
   <Tab.Navigator
