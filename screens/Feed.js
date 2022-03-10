@@ -55,9 +55,10 @@ const styles = StyleSheet.create({
   appTitleTextContainer: {},
 
   appTitleText: {
-    fontSize: RFValue(30),
+    color: "#14213d",
     paddingLeft: 14,
-    fontWeight: "bold",
+    fontSize: RFValue(26),
+    fontFamily: "RowdiesRegular",
   },
 
   cardContainer: {
