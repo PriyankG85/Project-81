@@ -4,7 +4,7 @@ import PostCard from "../components/PostCard";
 import { FlatList } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 
-const Feed = () => {
+const Feed = ({ navigation }) => {
   const posts = require("../temp__post.json");
 
   return (
@@ -25,7 +25,7 @@ const Feed = () => {
           style={{ paddingHorizontal: 20 }}
           data={posts}
           keyExtractor={(item, i) => i}
-          renderItem={({ item }) => <PostCard post={item} />}
+          renderItem={({ item }) => <PostCard post={item} navigation={navigation} />}
         />
       </View>
     </View>

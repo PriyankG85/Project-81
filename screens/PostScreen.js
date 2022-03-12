@@ -1,14 +1,13 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Ionicons } from "@expo/vector-icons";
 
-const PostCard = ({ post, navigation }) => {
+const PostScreen = ({ route }) => {
+  const post = route.params.post;
+
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => navigation.push("PostScreen", { post })}
-    >
+    <View style={styles.container}>
       <View style={styles.authorContainer}>
         <View style={styles.authorImageContainer}>
           <Image
@@ -36,17 +35,14 @@ const PostCard = ({ post, navigation }) => {
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: 420,
+    flex: 1,
     padding: 20,
-    borderRadius: 7,
-    marginBottom: 20,
     alignItems: "center",
     backgroundColor: "#61a5c2",
   },
@@ -83,7 +79,7 @@ const styles = StyleSheet.create({
 
   postImage: {
     width: "100%",
-    height: "70%",
+    height: "60%",
     borderRadius: 3,
   },
 
@@ -124,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostCard;
+export default PostScreen;
