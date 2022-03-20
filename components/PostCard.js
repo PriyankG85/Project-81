@@ -111,9 +111,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     borderWidth: 2,
     flexDirection: "row",
-    borderColor: "red",
-    borderRadius: 13,
-    backgroundColor: "#ff4d6d",
+    borderColor: "#ff4d6d",
+    borderRadius: 9,
+    // backgroundColor: "#ff4d6d",
   },
 
   likeText: {
