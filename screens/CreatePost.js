@@ -106,7 +106,7 @@ const CreatePost = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 10,
     backgroundColor: "#ff758f",
   },
 
@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
   fieldsContainer: {
     flex: 1,
     marginTop: 30,
+    paddingHorizontal: 10,
   },
 
   previewImg: {

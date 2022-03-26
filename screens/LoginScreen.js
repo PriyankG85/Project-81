@@ -44,20 +44,6 @@ const LoginScreen = () => {
     );
 
     await signInWithCredential(auth, credential);
-    // .then(async (res) => {
-    //   if (res.additionalUserInfo.isNewUser) {
-    //     await set(ref(db, "users/" + res.user.uid), {
-    //       gmail: res.user.email,
-    //       profile_picture: res.additionalUserInfo.profile.picture,
-    //       locale: res.additionalUserInfo.profile.locale,
-    //       first_name: res.additionalUserInfo.profile.given_name,
-    //       last_name: res.additionalUserInfo.profile.family_name,
-    //       // current_theme: "dark",
-    //     });
-    //   }
-    // })
-    // } else Alert.alert("user equal!!");
-    //   });
   };
 
   // const isUserEqual = (googleUser, firebaseUser) => {

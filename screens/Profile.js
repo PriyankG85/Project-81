@@ -28,7 +28,7 @@ const Profile = () => {
     <View
       style={{
         ...styles.container,
-        backgroundColor: darkTheme ? "#000" : "#fff",
+        backgroundColor: darkTheme ? "#14213d" : "#fff",
       }}
     >
       <Image style={styles.userImage} source={{ uri: currentUser.photoURL }} />
@@ -36,7 +36,14 @@ const Profile = () => {
         {currentUser.displayName}
       </Text>
       <View style={styles.toggleThemeContainer}>
-        <Text style={styles.toggleThemeText}>toggle theme</Text>
+        <Text
+          style={{
+            ...styles.toggleThemeText,
+            color: darkTheme ? "#fff" : "#000",
+          }}
+        >
+          toggle theme
+        </Text>
         <Switch
           value={darkTheme}
           trackColor={{ false: "#000", true: "#fff" }}

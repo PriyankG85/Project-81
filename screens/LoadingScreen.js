@@ -10,7 +10,9 @@ const LoadingScreen = ({ navigation }) => {
   const setUserDetails = async (user) => {
     const allUsers = [];
     await get(ref(db, "users")).then((users) => {
-      users?.forEach((user) => allUsers.push(user.email));
+      users.forEach((user) => {
+        allUsers.push(user.val().gmail);
+      });
     });
 
     if (!allUsers.includes(user.email)) {
@@ -21,7 +23,9 @@ const LoadingScreen = ({ navigation }) => {
         first_name: user.displayName.slice(0, user.displayName.indexOf(" ")),
         last_name: user.displayName.slice(user.displayName.indexOf(" ")),
         current_theme: "dark",
-      }).then(() => navigation.navigate("DashboardScreen"));
+      });
+
+      navigation.navigate("DashboardScreen");
     } else navigation.navigate("DashboardScreen");
   };
 

@@ -1,13 +1,34 @@
 import { View, Text, Image, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Ionicons } from "@expo/vector-icons";
+import { getAuth } from "firebase/auth";
+import { onValue, ref } from "firebase/database";
+import { app, db } from "../config";
 
 const PostScreen = ({ route }) => {
   const post = route.params.post;
 
+  const currentUser = getAuth(app).currentUser;
+  const [currentDarkTheme, setCurrentDarkTheme] = useState(true);
+
+  const getUserCurrentTheme = () => {
+    onValue(ref(db, "users/" + currentUser.uid), (snapshot) => {
+      setCurrentDarkTheme(
+        snapshot.val().current_theme === "dark" ? true : false
+      );
+    });
+  };
+
+  useEffect(() => getUserCurrentTheme(), []);
+
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        ...styles.container,
+        backgroundColor: currentDarkTheme ? "#14213d" : "#61a5c2",
+      }}
+    >
       <View style={styles.authorContainer}>
         <View style={styles.authorImageContainer}>
           <Image
@@ -44,7 +65,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     alignItems: "center",
-    backgroundColor: "#61a5c2",
   },
 
   authorContainer: {
@@ -87,17 +107,20 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     paddingVertical: 12,
+    justifyContent: "space-between",
   },
 
   captionsContainer: {
     flexGrow: 1,
+    maxWidth: "68%",
     paddingRight: 6,
-    paddingVertical: 10,
+    justifyContent: "center",
   },
 
   captionText: {
     fontSize: 18,
     color: "white",
+    fontFamily: "BubblegumSans",
   },
 
   actionContainer: {},
@@ -105,15 +128,13 @@ const styles = StyleSheet.create({
   likeButton: {
     paddingVertical: 3,
     paddingHorizontal: 6,
-    borderWidth: 2,
     flexDirection: "row",
-    borderColor: "red",
-    borderRadius: 13,
-    backgroundColor: "#ff4d6d",
+    backgroundColor: "#ffccd5",
+    borderRadius: 5,
   },
 
   likeText: {
-    color: "white",
+    color: "#000",
     fontSize: 19,
     fontWeight: "bold",
     paddingLeft: 7,

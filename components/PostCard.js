@@ -3,10 +3,13 @@ import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Ionicons } from "@expo/vector-icons";
 
-const PostCard = ({ post, navigation }) => {
+const PostCard = ({ post, navigation, currentDarkTheme }) => {
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={{
+        ...styles.container,
+        backgroundColor: currentDarkTheme ? "#023047" : "#61a5c2",
+      }}
       onPress={() => navigation.push("PostScreen", { post })}
     >
       <View style={styles.authorContainer}>
@@ -26,14 +29,14 @@ const PostCard = ({ post, navigation }) => {
 
       <View style={styles.bottomContainer}>
         <View style={styles.captionsContainer}>
-          <Text style={styles.captionText}>{post.caption}</Text>
+          <Text style={styles.captionText} numberOfLines={3}>
+            {post.caption}
+          </Text>
         </View>
 
-        <View style={styles.actionContainer}>
-          <View style={styles.likeButton}>
-            <Ionicons name="heart" color="red" size={RFValue(30)} />
-            <Text style={styles.likeText}>12k</Text>
-          </View>
+        <View style={styles.likeButton}>
+          <Ionicons name="heart" color="red" size={RFValue(30)} />
+          <Text style={styles.likeText}>12k</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -43,12 +46,11 @@ const PostCard = ({ post, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 420,
-    padding: 20,
+    maxHeight: 500,
+    padding: 10,
     borderRadius: 7,
     marginBottom: 20,
     alignItems: "center",
-    backgroundColor: "#61a5c2",
   },
 
   authorContainer: {
@@ -59,8 +61,8 @@ const styles = StyleSheet.create({
   },
 
   authorImageContainer: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     padding: 5,
     backgroundColor: "white",
     borderRadius: 999,
@@ -79,41 +81,39 @@ const styles = StyleSheet.create({
   authorNameText: {
     fontSize: 22,
     color: "white",
+    fontFamily: "RowdiesLight",
   },
 
   postImage: {
     width: "100%",
-    height: "70%",
+    minHeight: 250,
+    maxHeight: 300,
     borderRadius: 3,
   },
 
   bottomContainer: {
     width: "100%",
     flexDirection: "row",
-    paddingVertical: 12,
+    paddingVertical: 10,
   },
 
   captionsContainer: {
     flexGrow: 1,
     paddingRight: 6,
-    paddingVertical: 10,
+    justifyContent: "center",
+    maxWidth: "70%",
   },
 
   captionText: {
     fontSize: 18,
     color: "white",
+    fontFamily: "BubblegumSans",
   },
 
-  actionContainer: {},
-
   likeButton: {
-    paddingVertical: 3,
+    paddingVertical: 5,
     paddingHorizontal: 6,
-    borderWidth: 2,
     flexDirection: "row",
-    borderColor: "#ff4d6d",
-    borderRadius: 9,
-    // backgroundColor: "#ff4d6d",
   },
 
   likeText: {
