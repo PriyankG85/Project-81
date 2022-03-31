@@ -1,57 +1,87 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState, useCallback } from "react";
 import { signOut, getAuth } from "firebase/auth";
-import { app } from "../config";
+import { app } from "../firebase";
+import { useFocusEffect } from "@react-navigation/native";
+import { currentGlobalStates } from "../Global_States";
 
-const Logout = () => {
-  const currentUser = getAuth(app).currentUser;
+const Logout = ({ navigation }) => {
+  const auth = getAuth(app);
+
+  const [currentDarkTheme, setCurrentDarkTheme] = useState(
+    currentGlobalStates.theme === "dark" ? true : false
+  );
+
+  useFocusEffect(
+    useCallback(
+      () =>
+        setCurrentDarkTheme(
+          currentGlobalStates.theme === "dark" ? true : false
+        ),
+      []
+    )
+  );
 
   const logout = () => {
-    signOut(getAuth(app));
+    signOut(auth);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.confirmationText}>
-        Sure to Logout{" "}
-        {currentUser.displayName[0].toUpperCase() +
-          currentUser.displayName.slice(
-            1,
-            currentUser.displayName.indexOf(" ")
-          )}
-        ?
+    <View
+      style={{
+        flex: 1,
+        paddingTop: "30%",
+        backgroundColor: currentDarkTheme ? "#15193c" : "#edf2f4",
+      }}
+    >
+      <Text
+        style={{
+          ...styles.title,
+          color: currentDarkTheme ? "#edf2f4" : "#15193c",
+        }}
+      >
+        Are you Sure want to LOGOUT??
       </Text>
-      <TouchableOpacity onPress={logout} style={styles.logoutBtn}>
-        <Text style={styles.logoutText}>Logout</Text>
-      </TouchableOpacity>
+      <View style={styles.btnContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.btn}
+        >
+          <Text style={styles.btnText}>Cancel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btn} onPress={logout}>
+          <Text style={styles.btnText}>Logout</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  confirmationText: {
-    fontSize: 24,
-    fontFamily: "RowdiesBold",
-  },
-
-  logoutBtn: {
-    marginTop: 20,
-    paddingVertical: 5,
-    paddingHorizontal: 12,
-    backgroundColor: "#000000",
-    borderRadius: 4,
-  },
-
-  logoutText: {
-    color: "#ffffff",
+  title: {
     fontSize: 20,
-    fontFamily: "BubblegumSans",
+    textAlign: "center",
+    paddingHorizontal: "10%",
+    fontFamily: "Rowdies-Regular",
+  },
+
+  btnContainer: {
+    paddingTop: 50,
+    flexDirection: "row",
+    paddingHorizontal: "15%",
+    justifyContent: "space-between",
+  },
+
+  btn: {
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: "#023e8a",
+  },
+
+  btnText: {
+    fontSize: 15,
+    color: "#ffffff",
+    fontFamily: "Bubblegum-Sans",
   },
 });
 
