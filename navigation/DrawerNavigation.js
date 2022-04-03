@@ -6,6 +6,7 @@ import StackNavigator from "./StackNavigator";
 import { getAuth } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
 import { app, db } from "../config";
+import CustomizedDrawer from "../components/CustomizedDrawer";
 
 const Drawer = createDrawerNavigator();
 
@@ -25,9 +26,15 @@ const DrawerNavigation = () => {
 
   return (
     <Drawer.Navigator
+      drawerContent={(props) => <CustomizedDrawer {...props} />}
       initialRouteName={"Home"}
       screenOptions={{
         headerShown: false,
+
+        drawerActiveBackgroundColor: currentDarkTheme ? "#001219" : "#14213d",
+        drawerInactiveBackgroundColor: currentDarkTheme ? "#005f73" : "#6c757d",
+        drawerActiveTintColor: "#efefef",
+        drawerInactiveTintColor: "#efefef",
 
         drawerStyle: {
           width: "70%",

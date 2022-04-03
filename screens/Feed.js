@@ -8,10 +8,11 @@ import { onValue, ref } from "firebase/database";
 import { app, db } from "../config";
 
 const Feed = ({ navigation }) => {
-  const posts = require("../temp__post.json");
+  // const posts = require("../temp__post.json");
 
   const currentUser = getAuth(app).currentUser;
   const [currentDarkTheme, setCurrentDarkTheme] = useState(true);
+  const [posts, setPosts] = useState([]);
 
   const getUserCurrentTheme = () => {
     onValue(ref(db, "users/" + currentUser.uid), (snapshot) => {
@@ -21,7 +22,23 @@ const Feed = ({ navigation }) => {
     });
   };
 
-  useEffect(() => getUserCurrentTheme(), []);
+  const fetchPosts = () => {
+    let allPosts = [];
+
+    onValue(ref(db, "posts"), (snapshot) => {
+      snapshot.exists() &&
+        snapshot.forEach((post) => {
+          allPosts.push(post.val());
+        });
+
+      setPosts(allPosts);
+    });
+  };
+
+  useEffect(() => {
+    getUserCurrentTheme();
+    fetchPosts();
+  }, []);
 
   return (
     <View

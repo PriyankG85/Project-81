@@ -5,12 +5,18 @@ import {
   TextInput,
   StyleSheet,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import { RFValue } from "react-native-responsive-fontsize";
+import { set, ref } from "firebase/database";
+import { getAuth } from "firebase/auth";
+import { db, app } from "../config";
 
-const CreatePost = () => {
+const CreatePost = ({ navigation }) => {
+  const currentUser = getAuth(app).currentUser;
+
   const [previewImage, setPreviewImage] = useState("image_1");
   const [dropDownHeight, setDropDownHeight] = useState(40);
   const [caption, setCaption] = useState("");
@@ -23,6 +29,21 @@ const CreatePost = () => {
     image_5: require("../assets/image_5.jpg"),
     image_6: require("../assets/image_6.jpg"),
     image_7: require("../assets/image_7.jpg"),
+  };
+
+  const addPost = async () => {
+    const today = new Date();
+    const uid = today.getTime().toString();
+
+    await set(ref(db, "posts/" + uid), {
+      caption: caption,
+      preview_image: previewImage,
+      author: currentUser.displayName,
+      created_on: today.toDateString(),
+      author_uid: currentUser.uid,
+      profile_image: currentUser.photoURL,
+      likes: 0,
+    }).then(() => navigation.navigate("Feed"));
   };
 
   return (
@@ -98,6 +119,16 @@ const CreatePost = () => {
             numberOfLines={3}
           />
         </View>
+
+        <View style={styles.submitBtnContainer}>
+          <TouchableOpacity
+            disabled={caption.length === 0}
+            onPress={addPost}
+            style={styles.submitBtn}
+          >
+            <Text style={styles.submitBtnText}>Submit</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
@@ -151,6 +182,22 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     borderColor: "#ffccd5",
     fontFamily: "RowdiesRegular",
+  },
+
+  submitBtnContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+  },
+
+  submitBtn: {
+    backgroundColor: "#ffccd5",
+    borderRadius: 6,
+    padding: 6,
+  },
+
+  submitBtnText: {
+    color: "#ff758f",
   },
 });
 
